@@ -16,20 +16,36 @@ export default class ElmTodo < HTMLElement
   def init_elm()
     l_li_dom = lambda do
       dom_result = []
-      todo_obj[:todo].each_with_index do |name, i| 
+      todo_obj[:checklist].each_with_index do |todo, i| 
         pos = i + 1
-        # TODO: add fn for id name
-        puts name.id_name()
-        id = "#{pos}-#{name.id_name()}"
-        dom_result << "<li id='#{id}'>#{pos}. #{name}</li>"
+        id = "#{pos}-#{todo.id_name()}"
+
+        dom_result << """
+<li id='#{id}' class='list-group-item border-0 d-flex align-items-center ps-0'>
+  <input class='form-check-input me-3' type='checkbox' value='' aria-label='...' checked />
+  <span for='#{id}'>#{todo}</span>
+</li>
+        """
+        next
       end
       return dom_result.join("\n")
     end
 
     template = """
-    <ul>
-      #{l_li_dom()}
-    </ul>
+<div class='col col-lg-8 col-xl-6'>
+  <div class='card rounded-3'>
+    <div class='card-body p-4'>
+
+      <p class='mb-2'><span class='h2 me-2'>#{todoObj[:header]}</span> <span
+      class='badge bg-danger'>checklist</span></p>
+      <p class='text-muted pb-2'>#{todoObj[:date]}</p>
+
+      <ul class='list-group rounded-0'>
+        #{l_li_dom()} 
+      </ul>
+    </div>
+  </div>
+</div>
     """
 
     self.innerHTML = template

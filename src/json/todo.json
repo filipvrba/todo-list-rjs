@@ -1,7 +1,10 @@
 {
-  "todo": [
+  "header": "Music Cource",
+  "date": "09/10/2023",
+  "checklist": [
     "split dev",
     "publish web",
     "contact friend"
   ]
 }
+
