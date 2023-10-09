@@ -3,7 +3,9 @@ import todoObj from "../../json/todo.json";
 export default class ElmTodo extends HTMLElement {
   constructor() {
     super();
-    this.initElm()
+    this._storage = new Storage(todoObj);
+    this.initElm();
+    window.inputChange = this.inputChange.bind(this)
   };
 
   connectedCallback() {
@@ -22,10 +24,14 @@ export default class ElmTodo extends HTMLElement {
         let pos = i + 1;
         let id = `${pos}-${todo.idName()}`;
         let idInput = `${id}-input`;
+
+        // TODO: add checked controller
         domResult.push(`${`
 <li id='${id}' class='list-group-item border-0 d-flex align-items-center ps-0'>
-  <input id='${idInput}' class='form-check-input me-3' type='checkbox' value='' aria-label='...' checked />
-  <span for='${idInput}'>${todo}</span>
+  <div class='form-check'>
+    <input id='${idInput}' class='form-check-input me-3' onchange='inputChange("${idInput}")' type='checkbox' value='' aria-label='...' checked />
+    <label class='form-check-label' for='${idInput}'>${todo}</label>
+  </div>
 </li>
         `}`);
         return
@@ -51,5 +57,18 @@ export default class ElmTodo extends HTMLElement {
 </div>
     `}`;
     return this.innerHTML = template
+  };
+
+  inputChange(idInput) {
+    let input = document.getElementById(idInput);
+    let isChecked = input.hasAttribute("checked");
+
+    if (isChecked) {
+      input.removeAttribute("checked")
+    } else {
+      input.setAttribute("checked", "")
+    };
+
+    return this._storage.set()
   }
 }

@@ -3,8 +3,11 @@ import 'todoObj', '../../json/todo.json'
 export default class ElmTodo < HTMLElement
   def initialize
     super
-    
+    @storage = Storage.new(todoObj)
+
     init_elm()
+
+    window.input_change = input_change
   end
 
   def connectedCallback()
@@ -21,10 +24,13 @@ export default class ElmTodo < HTMLElement
         id = "#{pos}-#{todo.id_name()}"
         id_input = "#{id}-input"
 
+        # TODO: add checked controller
         dom_result << """
 <li id='#{id}' class='list-group-item border-0 d-flex align-items-center ps-0'>
-  <input id='#{id_input}' class='form-check-input me-3' type='checkbox' value='' aria-label='...' checked />
-  <span for='#{id_input}'>#{todo}</span>
+  <div class='form-check'>
+    <input id='#{id_input}' class='form-check-input me-3' onchange='inputChange(\"#{id_input}\")' type='checkbox' value='' aria-label='...' checked />
+    <label class='form-check-label' for='#{id_input}'>#{todo}</label>
+  </div>
 </li>
         """
         next
@@ -50,5 +56,17 @@ export default class ElmTodo < HTMLElement
     """
 
     self.innerHTML = template
+  end
+
+  def input_change(id_input)
+    input = document.get_element_by_id(id_input)
+    is_checked = input.has_attribute('checked')
+    if is_checked
+      input.remove_attribute('checked')
+    else
+      input.set_attribute('checked', '')
+    end
+
+    @storage.set()
   end
 end
