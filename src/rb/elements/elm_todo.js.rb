@@ -19,11 +19,12 @@ export default class ElmTodo < HTMLElement
       todo_obj[:checklist].each_with_index do |todo, i| 
         pos = i + 1
         id = "#{pos}-#{todo.id_name()}"
+        id_input = "#{id}-input"
 
         dom_result << """
 <li id='#{id}' class='list-group-item border-0 d-flex align-items-center ps-0'>
-  <input class='form-check-input me-3' type='checkbox' value='' aria-label='...' checked />
-  <span for='#{id}'>#{todo}</span>
+  <input id='#{id_input}' class='form-check-input me-3' type='checkbox' value='' aria-label='...' checked />
+  <span for='#{id_input}'>#{todo}</span>
 </li>
         """
         next

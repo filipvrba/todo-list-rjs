@@ -21,10 +21,11 @@ export default class ElmTodo extends HTMLElement {
       todoObj.checklist.forEach((todo, i) => {
         let pos = i + 1;
         let id = `${pos}-${todo.idName()}`;
+        let idInput = `${id}-input`;
         domResult.push(`${`
 <li id='${id}' class='list-group-item border-0 d-flex align-items-center ps-0'>
-  <input class='form-check-input me-3' type='checkbox' value='' aria-label='...' checked />
-  <span for='${id}'>${todo}</span>
+  <input id='${idInput}' class='form-check-input me-3' type='checkbox' value='' aria-label='...' checked />
+  <span for='${idInput}'>${todo}</span>
 </li>
         `}`);
         return
