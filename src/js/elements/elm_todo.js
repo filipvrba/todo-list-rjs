@@ -24,12 +24,11 @@ export default class ElmTodo extends HTMLElement {
         let pos = i + 1;
         let id = `${pos}-${todo.idName()}`;
         let idInput = `${id}-input`;
-
-        // TODO: add checked controller
+        let domChecked = this._storage.getValue(id) ? "checked" : "";
         domResult.push(`${`
 <li id='${id}' class='list-group-item border-0 d-flex align-items-center ps-0'>
   <div class='form-check'>
-    <input id='${idInput}' class='form-check-input me-3' onchange='inputChange("${idInput}")' type='checkbox' value='' aria-label='...' checked />
+    <input id='${idInput}' class='form-check-input me-3' onchange='inputChange("${idInput}")' type='checkbox' value='' aria-label='...' ${domChecked} />
     <label class='form-check-label' for='${idInput}'>${todo}</label>
   </div>
 </li>

@@ -17,13 +17,28 @@ export default class Storage
 
   def get()
     value = localStorage.getItem(id())
-    
     unless value
-      localStorage.clear()
+      # Cleaning without an existing item throws an error.
+      #localStorage.clear() 
       return nil
     else
       return value
     end
+  end
+
+  def get_value(id_item)
+    storage = get()
+    value = false
+    if storage
+      storage.split(SYM_SPLIT).each do |item|
+        if item.index(id_item) > -1
+          value = item.split('-')[2]
+          value = value == '1'
+          break
+        end
+      end
+    end
+    return value
   end
 
   def set()

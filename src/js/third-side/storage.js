@@ -17,9 +17,27 @@ export default class Storage {
     if (value) {
       return value
     } else {
-      localStorage.length = 0;
+      // Cleaning without an existing item throws an error.
+      //localStorage.clear() 
       return null
     }
+  };
+
+  getValue(idItem) {
+    let storage = this.get();
+    let value = false;
+
+    if (storage) {
+      for (let item of storage.split(Storage.SYM_SPLIT)) {
+        if (item.indexOf(idItem) > -1) {
+          value = item.split("-")[2];
+          value = value === "1";
+          break
+        }
+      }
+    };
+
+    return value
   };
 
   set() {

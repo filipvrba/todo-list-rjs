@@ -4,7 +4,6 @@ export default class ElmTodo < HTMLElement
   def initialize
     super
     @storage = Storage.new(todoObj)
-
     init_elm()
 
     window.input_change = input_change
@@ -24,11 +23,11 @@ export default class ElmTodo < HTMLElement
         id = "#{pos}-#{todo.id_name()}"
         id_input = "#{id}-input"
 
-        # TODO: add checked controller
+        dom_checked = @storage.get_value(id) ? 'checked' : ''
         dom_result << """
 <li id='#{id}' class='list-group-item border-0 d-flex align-items-center ps-0'>
   <div class='form-check'>
-    <input id='#{id_input}' class='form-check-input me-3' onchange='inputChange(\"#{id_input}\")' type='checkbox' value='' aria-label='...' checked />
+    <input id='#{id_input}' class='form-check-input me-3' onchange='inputChange(\"#{id_input}\")' type='checkbox' value='' aria-label='...' #{dom_checked} />
     <label class='form-check-label' for='#{id_input}'>#{todo}</label>
   </div>
 </li>
