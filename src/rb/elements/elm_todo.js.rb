@@ -1,10 +1,13 @@
-import 'todoObj', '../../json/todo.json'
-
 export default class ElmTodo < HTMLElement
+  attr_reader todo_obj
+
   def initialize
     super
-    @storage = Storage.new(todoObj)
-    init_elm()
+    Net.get_json('/json/todo.json') do |obj|
+      @todo_obj = obj
+      @storage = Storage.new(@todo_obj)
+      init_elm()
+    end
 
     window.input_change = input_change
   end
@@ -18,7 +21,7 @@ export default class ElmTodo < HTMLElement
   def init_elm()
     l_li_dom = lambda do
       dom_result = []
-      todo_obj[:checklist].each_with_index do |todo, i| 
+      @todo_obj[:checklist].each_with_index do |todo, i| 
         pos = i + 1
         id = "#{pos}-#{todo.id_name()}"
         id_input = "#{id}-input"
@@ -42,9 +45,9 @@ export default class ElmTodo < HTMLElement
   <div class='card rounded-3'>
     <div class='card-body p-4'>
 
-      <p class='mb-2'><span class='h2 me-2'>#{todoObj[:header]}</span> <span
+      <p class='mb-2'><span class='h2 me-2'>#{@todo_obj[:header]}</span> <span
       class='badge bg-danger'>checklist</span></p>
-      <p class='text-muted pb-2'>#{todoObj[:date]}</p>
+      <p class='text-muted pb-2'>#{@todo_obj[:date]}</p>
 
       <ul class='list-group rounded-0'>
         #{l_li_dom()} 

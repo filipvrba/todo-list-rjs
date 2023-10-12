@@ -1,10 +1,17 @@
-import todoObj from "../../json/todo.json";
-
 export default class ElmTodo extends HTMLElement {
+  get () {
+    return this._
+  };
+
   constructor() {
     super();
-    this._storage = new Storage(todoObj);
-    this.initElm();
+
+    Net.getJson("/json/todo.json", (obj) => {
+      this._todoObj = obj;
+      this._storage = new Storage(this._todoObj);
+      return this.initElm()
+    });
+
     window.inputChange = this.inputChange.bind(this)
   };
 
@@ -20,7 +27,7 @@ export default class ElmTodo extends HTMLElement {
     let lLiDom = () => {
       let domResult = [];
 
-      todoObj.checklist.forEach((todo, i) => {
+      this._todoObj.checklist.forEach((todo, i) => {
         let pos = i + 1;
         let id = `${pos}-${todo.idName()}`;
         let idInput = `${id}-input`;
@@ -44,9 +51,9 @@ export default class ElmTodo extends HTMLElement {
   <div class='card rounded-3'>
     <div class='card-body p-4'>
 
-      <p class='mb-2'><span class='h2 me-2'>${todoObj.header}</span> <span
+      <p class='mb-2'><span class='h2 me-2'>${this._todoObj.header}</span> <span
       class='badge bg-danger'>checklist</span></p>
-      <p class='text-muted pb-2'>${todoObj.date}</p>
+      <p class='text-muted pb-2'>${this._todoObj.date}</p>
 
       <ul class='list-group rounded-0'>
         ${lLiDom()} 
