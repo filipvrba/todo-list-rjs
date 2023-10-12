@@ -5,8 +5,9 @@ export default class ElmTodo extends HTMLElement {
 
   constructor() {
     super();
+    let urlDb = this.getAttribute("url-db");
 
-    Net.getJson("/json/todo.json", (obj) => {
+    Net.getJson(urlDb, (obj) => {
       this._todoObj = obj;
       this._storage = new Storage(this._todoObj);
       return this.initElm()

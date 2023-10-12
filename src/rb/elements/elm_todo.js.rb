@@ -3,7 +3,9 @@ export default class ElmTodo < HTMLElement
 
   def initialize
     super
-    Net.get_json('/json/todo.json') do |obj|
+    url_db = self.get_attribute('url-db')
+
+    Net.get_json(url_db) do |obj|
       @todo_obj = obj
       @storage = Storage.new(@todo_obj)
       init_elm()

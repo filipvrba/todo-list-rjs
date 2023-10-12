@@ -1,7 +1,8 @@
+import ['ENV'], '../env'
+
 export default class ElmHome < HTMLElement
   def initialize
     super
-    
     init_elm()
   end
 
@@ -15,7 +16,7 @@ export default class ElmHome < HTMLElement
     template = """
     <div class='container py-5 h-100'>
       <div class='row d-flex justify-content-center align-items-center h-100'>
-        <elm-todo></elm-todo>
+        <elm-todo url-db='#{ENV.VITE_URL_DB}'></elm-todo>
       </div>
     </div>
     """
